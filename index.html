@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lucky for Life Game</title>
+
+<script type="text/javascript">
+	function numGen() { //produces an array of random 5 numbers + lucky ball
+		//document.write("entering numGen <br>");
+		var n,l;
+		numbers = new Array(6);
+
+		for (i = 0; i < 6; i++) { //consider numbers.length???
+		//document.write("test number: " + i + "<br>");
+			if (i != 5) {
+				n = Math.random() * 47 + 1;
+				n = Math.round(n);
+				//document.write("The random number is: " + n + "<br>");
+				numbers[i] = n;
+				//document.write("element value: " + numbers[i] + "<br>");
+			}
+			else if (i = 5) { //at index position 5 in the array, lucky number
+				l = Math.random() * 17 + 1;
+				l = Math.round(l);
+				numbers[5] = l;
+			}
+		}
+		////As part of the hw, here is the code to sort this generated array. 
+		//Sorting the original array:
+		//numbers.sort(function(a,b) {return a-b;})
+		//document.write("<br>");
+		return numbers;
+	}
+
+
+	//Gathering data from user's inputs and sorting them into an array
+	function setup() {
+		//document.write("Entering setup <br>");
+		input = new Array(6);
+		var guesses = document.getElementById('rando');
+		var oneshot = document.getElementById('lucky');
+		var n = guesses.value;
+		var m = oneshot.value;
+		var t = n + ' ' + m;
+		//document.write(t);
+
+		t = t.split(' ');
+		//document.write("This is n: " + t + " <br>");
+		//document.write("Testing out parsing <br>");
+		for (i = 0; i < 6; i++) {
+			input[i] = t[i];
+			//document.write(input[i]);
+		}
+		document.write("The numbers you guessed were: " + input + " <br>");
+		generate(input);
+
+		////As part of the hw, here is the code to sort this user provided array. 
+		//Sorting the array:
+		//input.sort(function(a,b) {return a-b;})
+		//document.write("<br>");
+
+	}
+
+	function generate(userArr) {
+		var generated;
+
+		generated = numGen();
+		document.write("The winning numbers were: " + generated + " <br>");
+
+		comparison(userArr,generated);
+	}
+
+	function comparison(inputArr, matchArr) {
+		var Lmatch = false;
+		if (inputArr[5] == matchArr[5]) {
+			Lmatch = true;
+		} 
+
+		var count = 0;
+		for (i = 0; i < 5; i++) {
+			for (j = 0; j < 5; j++) {
+				if (inputArr[i] == matchArr[j]) {
+					//document.write(i + inputArr[i]);
+					//document.wrte(j + matchArr[j]);
+					//document.write("There is a match");
+					count++;
+				} 
+			}
+		}
+		//document.write("Count: " + count);
+		payout(count,Lmatch);
+	}
+
+	function payout(count,MatchBoo) {
+		document.write("Your Payout Is.... <br>");
+		if (MatchBoo == true) {
+			if (count == 5) {
+				document.write("Match: 5 + Lucky Ball!!!");
+				document.write("Probability: 1 in 30,821,472");
+				document.write("Prize: $7000 a WEEK for LIFE!!!");
+			} else if (count == 4) {
+				document.write("Match: 4 + Lucky Ball!!!");
+				document.write("Probability: 1 in 143,355");
+				document.write("Prize: $5000!!!");
+			} else if (count == 3) {
+				document.write("Match: 3 + Lucky Ball!!!");
+				document.write("Probability: 1 in 3,413");
+				document.write("Prize: $150!!!");
+			} else if (count == 2) {
+				document.write("Match: 2 + Lucky Ball!!!");
+				document.write("Probability: 1 in 249");
+				document.write("Prize: $25!!!");
+			} else if (count == 1) {
+				document.write("Match: 1 + Lucky Ball!!!");
+				document.write("Probability: 1 in 49");
+				document.write("Prize: $6!!!");
+			} else {
+				document.write("Match: 0 + Lucky Ball!!!");
+				document.write("Probability: 1 in 32");
+				document.write("Prize: $4!!!");
+			}
+		} 
+		else {
+			if (count == 5) {
+				document.write("Match: 5");
+				document.write("Probability: 1 in 1,813,027");
+				document.write("Prize: $25000 a YEAR for LIFE!!!");
+			} else if (count == 4) {
+				document.write("Match: 4");
+				document.write("Probability: 1 in 8,432");
+				document.write("Prize: $200!!!");
+			} else if (count == 3) {
+				document.write("Match: 3");
+				document.write("Probability: 1 in 200");
+				document.write("Prize: $20!!!");
+			} else if (count == 2) {
+				document.write("Match: 2");
+				document.write("Probability: 1 in 14");
+				document.write("Prize: $3!!!");
+			} else {
+				document.write("Better luck next time!");
+			}
+		}
+	}
+
+</script>
+</head>
+
+<style>
+	body {background-color: #95FF42;}
+	h1 {color: #4249FF; text-align: center}
+	h4 {color: #4249FF; text-align: center}
+	form {text-align: center}
+	menu {text-align: center}
+	img {display: block; margin-left: auto; margin-right: auto; width: 50%;}
+</style>
+
+<body>
+	<header>
+		<h1> The Lottery </h1>
+		<h4> Guess 5 numbers and a lucky ball number. If your answers match up to the winning numbers, it's JACKPOT! </h4>
+		<h4> What will you win? </h4>
+	</header>
+	<br><br>
+	<form>
+		5 Numbers Separated By Spaces: <input type="text" id="rando"/><br/>
+		Lucky number: <input type="text" id="lucky"/><br/>
+		<input type="button" value="Submit" onclick="setup();"/>
+	</form>
+	<br><br>
+	<img src = "https://cdnph.upi.com/sv/ph/og/upi_com/5981498057365/2017/1/b8f6a3229a77ef8f468a5a69cb2475e3/v1.5/Michigan-woman-surprises-husband-with-winning-lottery-ticket.jpg">
+
+</body>
+</html>
+
